@@ -1,5 +1,4 @@
 /* === 全局样式与重置 === */
-/* === 全局样式与重置 === */
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
 
 :root {
@@ -11,9 +10,10 @@
     --text-color: #343a40;
     --text-light-color: #6c757d;
     --border-color: #dee2e6;
-    --border-radius: 12px; /* 增大圆角半径 */
-    --shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* 调整阴影效果 */
-    --transition-time: 0.3s; /* 统一过渡时间 */
+    --border-radius: 12px;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --transition-time: 0.3s;
+    --accent-color: #FFA500; /* 新增强调色 */
 }
 
 body {
@@ -22,17 +22,17 @@ body {
     background-color: var(--background-color);
     color: var(--text-color);
     line-height: 1.6;
-    letter-spacing: 0.02em; /* 增加字母间距 */
+    letter-spacing: 0.02em;
 }
 
 main {
-    padding: 3rem 0; /* 增加主内容区域的上下间距 */
+    padding: 3rem 0;
 }
 
 .page-container {
-    max-width: 1200px; /* 增大页面容器的最大宽度 */
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 0 30px; /* 增加左右内边距 */
+    padding: 0 30px;
 }
 
 h1, h2, h3 {
@@ -53,41 +53,41 @@ a:hover {
 /* === Header 导航栏 === */
 .header {
     background-color: var(--surface-color);
-    padding: 1.2rem 3rem; /* 增加导航栏的上下内边距 */
+    padding: 1.2rem 3rem;
     display: grid;
     grid-template-columns: 1fr 1.5fr 1fr;
     align-items: center;
     gap: 2rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); /* 调整导航栏阴影 */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     position: sticky;
     top: 0;
     z-index: 1000;
 }
 
 .header .logo {
-    font-size: 1.8rem; /* 增大 logo 字体大小 */
+    font-size: 1.8rem;
     font-weight: 700;
     color: var(--text-color);
     transition: color var(--transition-time) ease-in-out;
 }
 
 .header .logo:hover {
-    color: var(--primary-color); /* 鼠标悬停时 logo 变色 */
+    color: var(--accent-color); /* 鼠标悬停时 logo 变色为强调色 */
 }
 
 .header nav a {
-    margin: 0 1.2rem; /* 增加导航链接的左右间距 */
+    margin: 0 1.2rem;
     font-weight: 500;
     color: var(--text-light-color);
-    padding-bottom: 8px; /* 增加下划线与文字的间距 */
+    padding-bottom: 8px;
     border-bottom: 2px solid transparent;
     transition: color var(--transition-time), border-bottom-color var(--transition-time);
 }
 
 .header nav a:hover,
 .header nav a.active {
-    color: var(--primary-color);
-    border-bottom-color: var(--primary-color);
+    color: var(--accent-color); /* 鼠标悬停或激活时导航链接变色为强调色 */
+    border-bottom-color: var(--accent-color);
 }
 
 .header-left, .header-right {
@@ -108,12 +108,11 @@ a:hover {
     background: none;
     border: 1px solid #e74c3c;
     color: #e74c3c;
-    padding: 8px 16px; /* 增大退出按钮的内边距 */
+    padding: 8px 16px;
     border-radius: var(--border-radius);
     cursor: pointer;
-    margin-left: 1.5rem; /* 增加退出按钮与其他元素的间距 */
-    font-size: 1rem; /* 增大退出按钮的字体大小 */
-    font-weight: 500;
+    margin-left: 1.5rem;
+    font-size: 1rem;
     transition: background-color var(--transition-time), color var(--transition-time);
 }
 
@@ -128,11 +127,11 @@ a:hover {
     align-items: center;
     justify-content: center;
     text-align: center;
-    height: 80vh; /* 增大 Hero 区域的高度 */
+    height: 80vh;
     color: white;
     background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1542766788-a2f588f447ee?q=80&w=2070') no-repeat center center/cover;
     position: relative;
-    overflow: hidden; /* 隐藏溢出内容 */
+    overflow: hidden;
 }
 
 .hero-container::before {
@@ -142,52 +141,52 @@ a:hover {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.2); /* 增加半透明遮罩 */
+    background: rgba(0, 0, 0, 0.2);
     z-index: 1;
 }
 
 .hero-content {
-    z-index: 2; /* 确保内容在遮罩之上 */
+    z-index: 2;
 }
 
 .hero-title {
-    font-size: 4.5rem; /* 增大标题字体大小 */
+    font-size: 4.5rem;
     margin-bottom: 1.5rem;
-    color: #FFA500;
-    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* 增加标题阴影 */
+    color: var(--accent-color); /* 标题颜色改为强调色 */
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 .hero-subtitle {
-    font-size: 1.5rem; /* 增大副标题字体大小 */
+    font-size: 1.5rem;
     font-weight: 300;
     margin-bottom: 2.5rem;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* 增加副标题阴影 */
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .hero-button {
     background-color: var(--primary-color);
     color: white;
-    padding: 1rem 2.5rem; /* 增大按钮内边距 */
+    padding: 1rem 2.5rem;
     border-radius: 50px;
-    font-size: 1.2rem; /* 增大按钮字体大小 */
+    font-size: 1.2rem;
     font-weight: 500;
     transition: background-color var(--transition-time), transform var(--transition-time), box-shadow var(--transition-time);
-    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3); /* 增加按钮阴影 */
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
 }
 
 .hero-button:hover {
     background-color: var(--primary-hover-color);
     color: white;
-    transform: translateY(-5px); /* 鼠标悬停时按钮上移 */
-    box-shadow: 0 8px 20px rgba(0, 123, 255, 0.4); /* 增大按钮阴影 */
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 123, 255, 0.4);
 }
 
 /* === 活动列表与卡片 === */
 .activity-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); /* 增大活动卡片的最小宽度 */
-    gap: 2rem; /* 增加卡片之间的间距 */
-    margin-top: 2.5rem; /* 增加与标题的间距 */
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+    margin-top: 2.5rem;
 }
 
 .activity-card {
@@ -196,7 +195,7 @@ a:hover {
     box-shadow: var(--shadow);
     overflow: hidden;
     transition: transform var(--transition-time), box-shadow var(--transition-time);
-    position: relative; /* 为卡片添加相对定位 */
+    position: relative;
 }
 
 .activity-card::before {
@@ -206,53 +205,53 @@ a:hover {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.05); /* 增加卡片半透明遮罩 */
+    background: rgba(0, 0, 0, 0.05);
     opacity: 0;
     transition: opacity var(--transition-time);
 }
 
 .activity-card:hover {
-    transform: translateY(-8px); /* 鼠标悬停时卡片上移更多 */
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15); /* 增大卡片阴影 */
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
 }
 
 .activity-card:hover::before {
-    opacity: 1; /* 鼠标悬停时显示遮罩 */
+    opacity: 1;
 }
 
 .activity-card a {
     display: block;
-    padding: 2rem; /* 增加卡片内边距 */
+    padding: 2rem;
     color: inherit;
 }
 
 .activity-card h3 {
     margin-top: 0;
     color: var(--text-color);
-    font-size: 1.5rem; /* 增大卡片标题字体大小 */
+    font-size: 1.5rem;
     transition: color var(--transition-time);
 }
 
 .activity-card:hover h3 {
-    color: var(--primary-color); /* 鼠标悬停时卡片标题变色 */
+    color: var(--accent-color); /* 鼠标悬停时卡片标题变色为强调色 */
 }
 
 .card-info {
     color: var(--text-light-color);
-    font-size: 1rem; /* 增大卡片信息字体大小 */
+    font-size: 1rem;
     margin: 0.8rem 0 0 0;
 }
 
 .card-link {
     display: inline-block;
-    margin-top: 1.2rem; /* 增加链接与信息的间距 */
+    margin-top: 1.2rem;
     color: var(--primary-color);
     font-weight: 500;
     transition: transform var(--transition-time);
 }
 
 .activity-card:hover .card-link {
-    transform: translateX(8px); /* 鼠标悬停时链接右移更多 */
+    transform: translateX(8px);
 }
 
 /* === 活动详情页 === */
@@ -260,31 +259,31 @@ a:hover {
     background: #fff;
     border-radius: var(--border-radius);
     box-shadow: var(--shadow);
-    padding: 3rem; /* 增加详情卡片内边距 */
-    max-width: 900px; /* 增大详情卡片最大宽度 */
+    padding: 3rem;
+    max-width: 900px;
     margin: 0 auto;
 }
 
 /* 报名按钮区域 */
 .registration-section {
-    margin: 40px 0; /* 增加报名按钮区域上下间距 */
+    margin: 40px 0;
     text-align: center;
 }
 
 .form-button {
-    padding: 14px 32px; /* 增大按钮内边距 */
+    padding: 14px 32px;
     border-radius: var(--border-radius);
     border: none;
-    font-size: 18px; /* 增大按钮字体大小 */
+    font-size: 18px;
     font-weight: 600;
     cursor: pointer;
     transition: all var(--transition-time) ease;
 }
 
 .form-button.primary {
-    background: #4e54c8;
+    background: var(--primary-color);
     color: white;
-    box-shadow: 0 6px 18px rgba(78, 84, 200, 0.3); /* 增加主按钮阴影 */
+    box-shadow: 0 6px 18px rgba(78, 84, 200, 0.3);
 }
 
 .form-button.secondary {
@@ -294,40 +293,40 @@ a:hover {
 }
 
 .form-button:hover {
-    transform: translateY(-4px); /* 鼠标悬停时按钮上移 */
-    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.18); /* 增大按钮阴影 */
+    transform: translateY(-4px);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.18);
 }
 
 /* 评论区样式 */
 .comment-section {
     background: #f9fafc;
     border-radius: var(--border-radius);
-    padding: 32px; /* 增加评论区内边距 */
-    margin-top: 40px; /* 增加评论区与其他元素的间距 */
+    padding: 32px;
+    margin-top: 40px;
     border: 1px solid #eaeef5;
 }
 
 .comment-section h3 {
     margin-top: 0;
-    margin-bottom: 24px; /* 增加标题与输入框的间距 */
-    padding-bottom: 16px; /* 增加标题下划线与文字的间距 */
+    margin-bottom: 24px;
+    padding-bottom: 16px;
     border-bottom: 1px solid #eaeef5;
     color: #333;
-    font-size: 1.6rem; /* 增大评论区标题字体大小 */
+    font-size: 1.6rem;
 }
 
 .comment-input-area {
-    margin-bottom: 32px; /* 增加输入框与评论列表的间距 */
+    margin-bottom: 32px;
 }
 
 .comment-input-area textarea {
     width: 100%;
-    padding: 16px; /* 增加输入框内边距 */
+    padding: 16px;
     border-radius: var(--border-radius);
     border: 1px solid #ddd;
-    font-size: 16px; /* 增大输入框字体大小 */
+    font-size: 16px;
     resize: vertical;
-    min-height: 120px; /* 增大输入框最小高度 */
+    min-height: 120px;
     transition: border var(--transition-time);
 }
 
@@ -338,113 +337,113 @@ a:hover {
 }
 
 .comment-submit-btn {
-    background: #4e54c8;
+    background: var(--primary-color);
     color: white;
     border: none;
-    padding: 12px 28px; /* 增大提交按钮内边距 */
+    padding: 12px 28px;
     border-radius: var(--border-radius);
     font-weight: 500;
-    margin-top: 16px; /* 增加提交按钮与输入框的间距 */
+    margin-top: 16px;
     cursor: pointer;
     float: right;
     transition: background var(--transition-time), transform var(--transition-time);
 }
 
 .comment-submit-btn:hover {
-    background: #3f45b5;
-    transform: translateY(-3px); /* 鼠标悬停时提交按钮上移 */
+    background: var(--primary-hover-color);
+    transform: translateY(-3px);
 }
 
 /* 评论列表 */
 .comment-list {
-    max-height: 500px; /* 增大评论列表最大高度 */
+    max-height: 500px;
     overflow-y: auto;
-    padding-right: 12px; /* 增加右侧内边距 */
+    padding-right: 12px;
 }
 
 .comment-item {
     background: white;
     border-radius: var(--border-radius);
-    padding: 20px; /* 增加评论项内边距 */
-    margin-bottom: 20px; /* 增加评论项之间的间距 */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* 增加评论项阴影 */
-    border-left: 4px solid #4e54c8; /* 增大评论项左侧边框宽度 */
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border-left: 4px solid var(--accent-color); /* 评论项左侧边框颜色改为强调色 */
 }
 
 .comment-header {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 12px; /* 增加评论头部与内容的间距 */
+    margin-bottom: 12px;
 }
 
 .comment-user {
     font-weight: 600;
     color: #4a4a4a;
-    font-size: 1.1rem; /* 增大评论用户字体大小 */
+    font-size: 1.1rem;
 }
 
 .comment-date {
     color: #888;
-    font-size: 14px; /* 增大评论日期字体大小 */
+    font-size: 14px;
 }
 
 .comment-content {
     color: #333;
     line-height: 1.6;
-    font-size: 1.05rem; /* 增大评论内容字体大小 */
+    font-size: 1.05rem;
 }
 
 .no-comments {
     text-align: center;
     color: #999;
-    padding: 32px; /* 增加无评论提示内边距 */
+    padding: 32px;
     background: #fdfdfd;
     border-radius: var(--border-radius);
     border: 1px dashed #eaeaea;
-    font-size: 1.1rem; /* 增大无评论提示字体大小 */
+    font-size: 1.1rem;
 }
 
 /* === 登录/注册表单 === */
 .form-page-container {
     display: flex;
     justify-content: center;
-    padding: 3rem 1rem; /* 增加表单页面上下内边距 */
+    padding: 3rem 1rem;
 }
 
 .form-container {
     background: var(--surface-color);
-    padding: 3rem; /* 增加表单容器内边距 */
+    padding: 3rem;
     border-radius: var(--border-radius);
     box-shadow: var(--shadow);
     width: 100%;
-    max-width: 500px; /* 增大表单容器最大宽度 */
+    max-width: 500px;
     text-align: center;
 }
 
 .form-container h2 {
     margin-top: 0;
-    margin-bottom: 2rem; /* 增加表单标题与输入框的间距 */
-    font-size: 2rem; /* 增大表单标题字体大小 */
+    margin-bottom: 2rem;
+    font-size: 2rem;
 }
 
 .form-group {
-    margin-bottom: 1.5rem; /* 增加表单组之间的间距 */
+    margin-bottom: 1.5rem;
     text-align: left;
 }
 
 .form-group label {
     display: block;
-    margin-bottom: 0.6rem; /* 增加标签与输入框的间距 */
+    margin-bottom: 0.6rem;
     font-weight: 500;
-    font-size: 1.1rem; /* 增大标签字体大小 */
+    font-size: 1.1rem;
 }
 
 .form-input {
     width: 100%;
-    padding: 1rem 1.2rem; /* 增加输入框内边距 */
+    padding: 1rem 1.2rem;
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
-    font-size: 1.1rem; /* 增大输入框字体大小 */
+    font-size: 1.1rem;
 }
 
 .form-input:focus {
@@ -455,15 +454,15 @@ a:hover {
 
 .form-button {
     width: 100%;
-    padding: 1rem; /* 增大按钮内边距 */
+    padding: 1rem;
     border: none;
     border-radius: var(--border-radius);
     background-color: var(--primary-color);
     color: white;
-    font-size: 1.2rem; /* 增大按钮字体大小 */
+    font-size: 1.2rem;
     font-weight: 500;
     cursor: pointer;
-    margin-top: 1.5rem; /* 增加按钮与输入框的间距 */
+    margin-top: 1.5rem;
     transition: background-color var(--transition-time);
 }
 
@@ -472,15 +471,15 @@ a:hover {
 }
 
 .form-switch {
-    margin-top: 2rem; /* 增加切换提示与按钮的间距 */
+    margin-top: 2rem;
     color: var(--text-light-color);
-    font-size: 1.05rem; /* 增大切换提示字体大小 */
+    font-size: 1.05rem;
 }
 
 /* === Search Bar Styling === */
 .search-bar-container {
     display: flex;
-    margin-bottom: 2.5rem; /* 增加搜索栏与活动列表的间距 */
+    margin-bottom: 2.5rem;
     box-shadow: var(--shadow);
     border-radius: 50px;
     overflow: hidden;
@@ -489,8 +488,8 @@ a:hover {
 .search-input {
     flex-grow: 1;
     border: none;
-    padding: 1rem 1.8rem; /* 增加输入框内边距 */
-    font-size: 1.1rem; /* 增大输入框字体大小 */
+    padding: 1rem 1.8rem;
+    font-size: 1.1rem;
 }
 
 .search-input:focus {
@@ -501,9 +500,9 @@ a:hover {
     background-color: var(--primary-color);
     color: white;
     border: none;
-    padding: 0 2.5rem; /* 增加按钮内边距 */
+    padding: 0 2.5rem;
     cursor: pointer;
-    font-size: 1.1rem; /* 增大按钮字体大小 */
+    font-size: 1.1rem;
     font-weight: 500;
     transition: background-color var(--transition-time);
 }
@@ -515,20 +514,20 @@ a:hover {
 /* === Profile Card Styling === */
 .profile-card {
     background: var(--surface-color);
-    padding: 3rem; /* 增加个人信息卡片内边距 */
+    padding: 3rem;
     border-radius: var(--border-radius);
     box-shadow: var(--shadow);
-    max-width: 800px; /* 增大个人信息卡片最大宽度 */
-    margin: 2.5rem auto; /* 增加个人信息卡片与其他元素的间距 */
+    max-width: 800px;
+    margin: 2.5rem auto;
 }
 
 .profile-card h2 {
-    font-size: 2.2rem; /* 增大个人信息卡片标题字体大小 */
-    margin-bottom: 1.5rem; /* 增加标题与内容的间距 */
+    font-size: 2.2rem;
+    margin-bottom: 1.5rem;
 }
 
 .profile-card p {
-    font-size: 1.1rem; /* 增大个人信息卡片内容字体大小 */
+    font-size: 1.1rem;
 }
 
 /* === 整体 App 布局 === */
@@ -547,15 +546,15 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 5rem; /* 增加加载动画容器内边距 */
+    padding: 5rem;
 }
 
 .loader {
-    border: 6px solid #f3f3f3; /* 增大加载动画边框宽度 */
+    border: 6px solid #f3f3f3;
     border-top: 6px solid var(--primary-color);
     border-radius: 50%;
-    width: 60px; /* 增大加载动画宽度 */
-    height: 60px; /* 增大加载动画高度 */
+    width: 60px;
+    height: 60px;
     animation: spin 1s linear infinite;
 }
 
@@ -568,17 +567,17 @@ main {
 .empty-state {
     grid-column: 1 / -1;
     text-align: center;
-    padding: 5rem 3rem; /* 增加空状态提示内边距 */
+    padding: 5rem 3rem;
     background-color: var(--surface-color);
     border-radius: var(--border-radius);
     border: 2px dashed var(--border-color);
 }
 
 .empty-state p {
-    font-size: 1.4rem; /* 增大空状态提示字体大小 */
+    font-size: 1.4rem;
     color: var(--text-light-color);
     margin-top: 0;
-    margin-bottom: 2rem; /* 增加提示内容与按钮的间距 */
+    margin-bottom: 2rem;
 }
 
 /* === 页脚 Footer === */
@@ -586,46 +585,46 @@ main {
     background-color: #343a40;
     color: #adb5bd;
     text-align: center;
-    padding: 2.5rem; /* 增加页脚内边距 */
-    margin-top: 3rem; /* 增加页脚与内容的间距 */
+    padding: 2.5rem;
+    margin-top: 3rem;
 }
 
 .footer p {
-    margin: 0.8rem 0; /* 增加页脚段落间距 */
-    font-size: 1rem; /* 增大页脚字体大小 */
+    margin: 0.8rem 0;
+    font-size: 1rem;
 }
 
 /* === Admin Dashboard Styling === */
 .admin-dashboard {
     display: flex;
     flex-direction: column;
-    gap: 3rem; /* 增大管理面板模块之间的间距 */
+    gap: 3rem;
 }
 
 .admin-dashboard h1 {
     border-bottom: 2px solid var(--border-color);
-    padding-bottom: 1.5rem; /* 增加标题下划线与文字的间距 */
-    font-size: 2.5rem; /* 增大管理面板标题字体大小 */
+    padding-bottom: 1.5rem;
+    font-size: 2.5rem;
 }
 
 .admin-form-container, .admin-list-container {
     background-color: var(--surface-color);
-    padding: 3rem; /* 增加管理面板容器内边距 */
+    padding: 3rem;
     border-radius: var(--border-radius);
     box-shadow: var(--shadow);
 }
 
 .admin-form-container h2, .admin-list-container h2 {
     margin-top: 0;
-    margin-bottom: 2rem; /* 增加管理面板子标题与内容的间距 */
-    font-size: 2rem; /* 增大管理面板子标题字体大小 */
+    margin-bottom: 2rem;
+    font-size: 2rem;
 }
 
 /* Admin Form Grid Layout */
 .admin-form {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 2rem; /* 增大管理面板表单网格间距 */
+    gap: 2rem;
 }
 
 .admin-form .form-group {
@@ -638,10 +637,10 @@ main {
 }
 
 .admin-form label {
-    margin-bottom: 0.8rem; /* 增加管理面板表单标签与输入框的间距 */
+    margin-bottom: 0.8rem;
     font-weight: 500;
     color: var(--text-light-color);
-    font-size: 1.1rem; /* 增大管理面板表单标签字体大小 */
+    font-size: 1.1rem;
 }
 
 .admin-form input[type="text"],
@@ -649,15 +648,15 @@ main {
 .admin-form input[type="number"],
 .admin-form textarea {
     width: 100%;
-    padding: 1rem; /* 增加管理面板表单输入框内边距 */
+    padding: 1rem;
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
-    font-size: 1.1rem; /* 增大管理面板表单输入框字体大小 */
+    font-size: 1.1rem;
     font-family: inherit;
     transition: border-color var(--transition-time), box-shadow var(--transition-time);
 }
 
-.admin-form input:focus, 
+.admin-form input:focus,
 .admin-form textarea:focus {
     outline: none;
     border-color: var(--primary-color);
@@ -668,18 +667,18 @@ main {
     grid-column: span 2;
     display: flex;
     justify-content: flex-end;
-    gap: 1.5rem; /* 增大管理面板表单按钮间距 */
-    margin-top: 1.5rem; /* 增加管理面板表单按钮与其他元素的间距 */
+    gap: 1.5rem;
+    margin-top: 1.5rem;
 }
 
 /* Buttons */
 .btn {
-    padding: 1rem 2rem; /* 增大管理面板按钮内边距 */
+    padding: 1rem 2rem;
     border: none;
     border-radius: var(--border-radius);
     cursor: pointer;
     font-weight: 500;
-    font-size: 1.1rem; /* 增大管理面板按钮字体大小 */
+    font-size: 1.1rem;
     transition: all var(--transition-time) ease;
 }
 
@@ -687,6 +686,7 @@ main {
     background-color: var(--primary-color);
     color: white;
 }
+
 .btn-primary:hover {
     background-color: var(--primary-hover-color);
 }
@@ -695,6 +695,7 @@ main {
     background-color: var(--secondary-color);
     color: white;
 }
+
 .btn-secondary:hover {
     background-color: #5a6268;
 }
@@ -702,10 +703,11 @@ main {
 .btn-edit {
     background-color: #ffc107;
     color: #212529;
-    padding: 8px 16px; /* 增大管理面板编辑按钮内边距 */
-    font-size: 1rem; /* 增大管理面板编辑按钮字体大小 */
+    padding: 8px 16px;
+    font-size: 1rem;
     border-radius: var(--border-radius);
 }
+
 .btn-edit:hover {
     background-color: #e0a800;
 }
@@ -713,10 +715,11 @@ main {
 .btn-delete {
     background-color: #dc3545;
     color: white;
-    padding: 8px 16px; /* 增大管理面板删除按钮内边距 */
-    font-size: 1rem; /* 增大管理面板删除按钮字体大小 */
+    padding: 8px 16px;
+    font-size: 1rem;
     border-radius: var(--border-radius);
 }
+
 .btn-delete:hover {
     background-color: #c82333;
 }
@@ -728,10 +731,10 @@ main {
 }
 
 .admin-table th, .admin-table td {
-    padding: 1.2rem; /* 增加管理面板表格单元格内边距 */
+    padding: 1.2rem;
     text-align: left;
     border-bottom: 1px solid var(--border-color);
-    font-size: 1.05rem; /* 增大管理面板表格字体大小 */
+    font-size: 1.05rem;
 }
 
 .admin-table th {
@@ -745,5 +748,5 @@ main {
 
 .admin-table .actions-cell {
     display: flex;
-    gap: 0.8rem; /* 增大管理面板表格操作单元格按钮间距 */
+    gap: 0.8rem;
 }
