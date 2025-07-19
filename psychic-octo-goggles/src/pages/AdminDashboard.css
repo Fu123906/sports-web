@@ -1,0 +1,295 @@
+/* 基础重置与全局样式 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Noto Sans SC', sans-serif;
+}
+
+:root {
+  --primary: #2563eb; /* 主色调：信任蓝 */
+  --primary-hover: #1d4ed8;
+  --secondary: #64748b; /* 次要色：中性灰 */
+  --danger: #dc2626; /* 危险操作色：红色 */
+  --danger-hover: #b91c1c;
+  --light-bg: #f8fafc; /* 浅色背景 */
+  --white: #ffffff; /* 白色背景 */
+  --border: #e2e8f0; /* 边框色 */
+  --text: #1e293b; /* 主要文本色 */
+  --text-light: #64748b; /* 次要文本色 */
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); /* 基础阴影 */
+  --radius: 8px; /* 圆角半径 */
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+}
+
+/* 容器基础样式 */
+.admin-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: var(--spacing-xl);
+  background-color: var(--light-bg);
+  min-height: 100vh;
+}
+
+/* 标题样式 */
+.page-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: var(--spacing-xl);
+  padding-bottom: var(--spacing-md);
+  border-bottom: 1px solid var(--border);
+}
+
+/* 标签页导航 */
+.tab-nav {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-xl);
+  background-color: var(--white);
+  padding: var(--spacing-sm);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.tab-item {
+  padding: var(--spacing-md) var(--spacing-lg);
+  border: none;
+  background: transparent;
+  border-radius: var(--radius);
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-light);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tab-item:hover {
+  color: var(--primary);
+  background-color: rgba(37, 99, 235, 0.05);
+}
+
+.tab-item.active {
+  color: var(--white);
+  background-color: var(--primary);
+}
+
+/* 面板卡片样式 */
+.panel-card {
+  background-color: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: var(--spacing-xl);
+  margin-bottom: var(--spacing-xl);
+}
+
+/* 区块标题 */
+.section-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: var(--spacing-lg);
+  padding-bottom: var(--spacing-md);
+  border-bottom: 1px solid var(--border);
+}
+
+/* 表单核心样式 */
+.admin-form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 默认两列布局 */
+  gap: var(--spacing-xl); /* 列之间的间距 */
+}
+
+/* 表单行容器（用于合并列或强制换行） */
+.form-row {
+  grid-column: 1 / -1; /* 占满整行 */
+  display: flex;
+  gap: var(--spacing-xl); /* 行内元素间距 */
+}
+
+/* 表单组（标签+输入框） */
+.form-group {
+  flex: 1; /* 平均分配行内空间 */
+  min-width: 0; /* 解决内容溢出问题 */
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: var(--spacing-sm);
+  font-weight: 500;
+  color: var(--text);
+  font-size: 0.95rem;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%; /* 强制占满父容器 */
+  padding: 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--primary); /* 聚焦时边框变色 */
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); /* 聚焦光晕 */
+}
+
+.form-group textarea {
+  min-height: 100px; /* 文本域最小高度 */
+  resize: vertical; /* 仅允许垂直拉伸 */
+}
+
+/* 表单操作按钮区 */
+.form-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: var(--spacing-md);
+  justify-content: flex-start;
+  margin-top: var(--spacing-md);
+}
+
+/* 按钮样式 */
+.btn {
+  padding: 0.7rem 1.2rem;
+  border-radius: var(--radius);
+  border: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn.primary {
+  background-color: var(--primary);
+  color: white;
+}
+
+.btn.primary:hover {
+  background-color: var(--primary-hover);
+}
+
+.btn.secondary {
+  background-color: var(--light-bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.btn.secondary:hover {
+  background-color: #e2e8f0;
+}
+
+.btn.danger {
+  background-color: var(--danger);
+  color: white;
+}
+
+.btn.danger:hover {
+  background-color: var(--danger-hover);
+}
+
+/* 列表区域样式 */
+.list-section {
+  margin-top: var(--spacing-xl);
+}
+
+/* 数据表格样式 */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: var(--spacing-md);
+}
+
+.data-table th,
+.data-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.data-table th {
+  background-color: var(--light-bg);
+  font-weight: 600;
+  color: var(--text);
+}
+
+.data-table tbody tr:hover {
+  background-color: rgba(37, 99, 235, 0.02); /* 行hover浅色背景 */
+}
+
+/* 操作列样式 */
+.action-cell {
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+.btn.tiny {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+}
+
+/* 空状态与加载样式 */
+.empty-state {
+  text-align: center;
+  padding: var(--spacing-xl);
+  color: var(--text-light);
+  background-color: var(--light-bg);
+  border-radius: var(--radius);
+  margin-top: var(--spacing-md);
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  margin: var(--spacing-xl) auto;
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* 响应式适配（解决小屏幕文本框交织问题） */
+@media (max-width: 1024px) {
+  .admin-container {
+    padding: var(--spacing-lg);
+  }
+  
+  .admin-form,
+  .form-row {
+    gap: var(--spacing-lg); /* 中等屏幕减小间距 */
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-form {
+    grid-template-columns: 1fr; /* 小屏幕强制单列布局 */
+  }
+  
+  .form-row {
+    flex-direction: column; /* 行内元素垂直堆叠 */
+    gap: var(--spacing-lg);
+  }
+  
+  .tab-nav {
+    flex-wrap: wrap; /* 标签页可换行 */
+  }
+  
+  .data-table {
+    min-width: 600px; /* 表格最小宽度，确保内容不挤压 */
+    overflow-x: auto; /* 表格横向滚动 */
+  }
+  
+  .admin-container {
+    padding: var(--spacing-md);
+  }
+}

@@ -1,332 +1,329 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import './AdminDashboard.css'; // 引入独立样式文件（需创建）
 
-// API 地址
 const API_URL = 'http://localhost:3001';
 
 const AdminDashboard = () => {
-    // 存储活动列表
-    const [activities, setActivities] = useState([]);
-    // 加载状态
-    const [isLoading, setIsLoading] = useState(true);
-    // 正在编辑的活动
-    const [editingActivity, setEditingActivity] = useState(null);
-    // 当前激活的标签页
-    const [activeTab, setActiveTab] = useState('activities');
+  // 状态管理
+  const [activities, setActivities] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [editingActivity, setEditingActivity] = useState(null);
+  const [activeTab, setActiveTab] = useState('activities');
+  const [formData, setFormData] = useState({
+    name: '',
+    description: '',
+    date: '',
+    location: '',
+    maxParticipants: '',
+    price: ''
+  });
+  const [registrations, setRegistrations] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [registrationsWithDetails, setRegistrationsWithDetails] = useState([]);
 
-    // 表单初始数据
-    const initialFormState = {
-        name: '',
-        description: '',
-        date: '',
-        location: '',
-        maxParticipants: '',
-        price: ''
+  // 数据获取逻辑
+  const fetchData = async (endpoint, setState) => {
+    try {
+      const res = await axios.get(`${API_URL}/${endpoint}`);
+      setState(res.data);
+    } catch (err) {
+      console.error(`获取${endpoint}失败:`, err);
+    }
+  };
+
+  useEffect(() => {
+    const init = async () => {
+      await Promise.all([
+        fetchData('activities', setActivities),
+        fetchData('registrations', setRegistrations),
+        fetchData('users', setUsers)
+      ]);
+      setIsLoading(false);
     };
-    // 表单数据
-    const [formData, setFormData] = useState(initialFormState);
+    init();
+  }, []);
 
-    // 存储报名记录
-    const [registrations, setRegistrations] = useState([]);
-    // 存储所有用户信息
-    const [users, setUsers] = useState([]);
-    // 包含详细信息的报名记录
-    const [registrationsWithDetails, setRegistrationsWithDetails] = useState([]);
+  // 报名信息合并逻辑
+  useEffect(() => {
+    if (activities.length && registrations.length && users.length) {
+      setRegistrationsWithDetails(registrations.map(reg => ({
+        ...reg,
+        activityName: activities.find(a => a.id === reg.activityId)?.name || '未知活动',
+        userEmail: users.find(u => u.id === reg.userId)?.email || '未知用户',
+        activityDate: activities.find(a => a.id === reg.activityId)?.date || '未知日期'
+      })));
+    }
+  }, [activities, registrations, users]);
 
-    // 获取所有活动
-    const fetchActivities = async () => {
-        try {
-            setIsLoading(true);
-            const response = await axios.get(`${API_URL}/activities`);
-            const sortedActivities = response.data.sort((a, b) => new Date(b.date) - new Date(a.date));
-            setActivities(sortedActivities);
-        } catch (error) {
-            console.error("获取活动失败:", error);
-        } finally {
-            setIsLoading(false);
-        }
-    };
+  // 交互处理
+  const handleInput = (e) => 
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
 
-    // 获取所有报名数据
-    const fetchRegistrations = async () => {
-        try {
-            const response = await axios.get(`${API_URL}/registrations`);
-            setRegistrations(response.data);
-        } catch (error) {
-            console.error("获取报名数据失败:", error);
-        }
-    };
+  const enterEditMode = (activity) => {
+    setEditingActivity(activity);
+    setFormData(activity);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
-    // 获取所有用户信息
-    const fetchUsers = async () => {
-        try {
-            const response = await axios.get(`${API_URL}/users`);
-            setUsers(response.data);
-        } catch (error) {
-            console.error("获取用户数据失败:", error);
-        }
-    };
+  const deleteResource = async (endpoint, id, successMsg) => {
+    if (window.confirm('确认删除？此操作不可恢复')) {
+      try {
+        await axios.delete(`${API_URL}/${endpoint}/${id}`);
+        alert(successMsg);
+        await fetchData(endpoint, endpoint === 'activities' ? setActivities : setRegistrations);
+      } catch (err) {
+        alert('删除失败，请重试');
+        console.error('删除失败:', err);
+      }
+    }
+  };
 
-    // 合并报名信息和用户信息
-    const combineRegistrationDetails = () => {
-        const combined = registrations.map(reg => {
-            const activity = activities.find(a => a.id === reg.activityId);
-            const user = users.find(u => u.id === reg.userId);
-            return {
-                ...reg,
-                activityName: activity ? activity.name : "未知活动",
-                userEmail: user ? user.email : "未知邮箱",
-                activityDate: activity ? activity.date : "未知日期"
-            };
-        });
-        setRegistrationsWithDetails(combined);
-    };
-
-    // 组件挂载时获取数据
-    useEffect(() => {
-        const fetchAllData = async () => {
-            await Promise.all([fetchActivities(), fetchRegistrations(), fetchUsers()]);
-        };
-        fetchAllData();
-    }, []);
-
-    // 当活动、报名记录和用户信息更新时，合并详细信息
-    useEffect(() => {
-        if (activities.length > 0 && registrations.length > 0 && users.length > 0) {
-            combineRegistrationDetails();
-        }
-    }, [activities, registrations, users]);
-
-    // 处理表单输入变化
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prevData => ({ ...prevData, [name]: value }));
+  const submitForm = async (e) => {
+    e.preventDefault();
+    const payload = {
+      ...formData,
+      maxParticipants: Number(formData.maxParticipants) || 0,
+      price: Number(formData.price) || 0
     };
 
-    // 处理编辑按钮点击事件
-    const handleEditClick = (activity) => {
-        setEditingActivity(activity);
-        setFormData(activity);
-        window.scrollTo(0, 0);
-    };
+    try {
+      if (editingActivity) {
+        await axios.put(`${API_URL}/activities/${editingActivity.id}`, payload);
+        alert('活动更新成功');
+      } else {
+        await axios.post(`${API_URL}/activities`, payload);
+        alert('活动创建成功');
+      }
+      setEditingActivity(null);
+      setFormData({ ...formData, name: '', description: '' }); // 保留部分状态优化体验
+      await fetchData('activities', setActivities);
+    } catch (err) {
+      alert('操作失败，请检查输入');
+      console.error('提交失败:', err);
+    }
+  };
 
-    // 处理取消编辑按钮点击事件
-    const handleCancelEdit = () => {
-        setEditingActivity(null);
-        setFormData(initialFormState);
-    };
+  return (
+    <div className="admin-container">
+      <h1 className="page-title">活动管理面板</h1>
 
-    // 处理删除活动按钮点击事件
-    const handleDelete = async (id) => {
-        if (window.confirm('您确定要删除这个活动吗？此操作无法撤销。')) {
-            try {
-                await axios.delete(`${API_URL}/activities/${id}`);
-                alert('删除成功！');
-                await fetchActivities();
-            } catch (error) {
-                console.error("删除失败:", error);
-                alert('删除失败！');
-            }
-        }
-    };
+      {/* 标签切换栏 */}
+      <div className="tab-nav">
+        <button 
+          className={`tab-item ${activeTab === 'activities' ? 'active' : ''}`}
+          onClick={() => setActiveTab('activities')}
+        >
+          活动管理
+        </button>
+        <button 
+          className={`tab-item ${activeTab === 'registrations' ? 'active' : ''}`}
+          onClick={() => setActiveTab('registrations')}
+        >
+          活动订单管理
+        </button>
+      </div>
 
-    // 处理删除报名记录按钮点击事件
-    const handleDeleteRegistration = async (id) => {
-        if (window.confirm('确定要删除此报名记录吗？')) {
-            try {
-                await axios.delete(`${API_URL}/registrations/${id}`);
-                alert('报名记录删除成功！');
-                await fetchRegistrations();
-            } catch (error) {
-                console.error("删除报名记录失败:", error);
-                alert('删除报名记录失败！');
-            }
-        }
-    };
-
-    // 处理表单提交事件
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const activityData = {
-            ...formData,
-            maxParticipants: parseInt(formData.maxParticipants) || 0,
-            price: parseFloat(formData.price) || 0
-        };
-
-        try {
-            if (editingActivity) {
-                await axios.put(`${API_URL}/activities/${editingActivity.id}`, activityData);
-                alert('更新成功！');
-            } else {
-                await axios.post(`${API_URL}/activities`, activityData);
-                alert('创建成功！');
-            }
-            handleCancelEdit();
-            await fetchActivities();
-        } catch (error) {
-            console.error("操作失败:", error);
-            alert("操作失败！");
-        }
-    };
-
-    return (
-        <div className="page-container admin-dashboard">
-            <h1>活动管理面板</h1>
-
-            {/* 标签页导航 */}
-            <div className="admin-tabs">
-                <button
-                    className={activeTab === 'activities' ? 'active' : ''}
-                    onClick={() => setActiveTab('activities')}
-                >
-                    活动管理
-                </button>
-                <button
-                    className={activeTab === 'registrations' ? 'active' : ''}
-                    onClick={() => setActiveTab('registrations')}
-                >
-                    活动订单管理
-                </button>
-            </div>
-
-            {/* 活动管理标签页 */}
-            {activeTab === 'activities' && (
-                <>
-                    {/* 表单容器 */}
-                    <div className="admin-form-container">
-                        <h2>{editingActivity ? `编辑活动：${editingActivity.name}` : '添加新活动'}</h2>
-                        <form onSubmit={handleSubmit} className="admin-form">
-                            <div className="form-group span-2">
-                                <label>活动名称</label>
-                                <input type="text" name="name" value={formData.name} onChange={handleInputChange} required />
-                            </div>
-                            <div className="form-group">
-                                <label>活动地点</label>
-                                <input type="text" name="location" value={formData.location} onChange={handleInputChange} required />
-                            </div>
-                            <div className="form-group">
-                                <label>活动日期</label>
-                                <input type="date" name="date" value={formData.date} onChange={handleInputChange} required />
-                            </div>
-                            <div className="form-group">
-                                <label>价格（元）</label>
-                                <input
-                                    type="number"
-                                    name="price"
-                                    value={formData.price}
-                                    onChange={handleInputChange}
-                                    required
-                                    min="0"
-                                    step="1"
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label>人数上限</label>
-                                <input type="number" name="maxParticipants" value={formData.maxParticipants} onChange={handleInputChange} required />
-                            </div>
-                            <div className="form-group span-2">
-                                <label>活动描述</label>
-                                <textarea name="description" value={formData.description} onChange={handleInputChange} required rows="4"></textarea>
-                            </div>
-                            <div className="form-actions span-2">
-                                <button type="submit" className="btn btn-primary">{editingActivity ? '保存更新' : '创建活动'}</button>
-                                {editingActivity && <button type="button" onClick={handleCancelEdit} className="btn btn-secondary">取消编辑</button>}
-                            </div>
-                        </form>
-                    </div>
-
-                    {/* 列表容器 */}
-                    <div className="admin-list-container">
-                        <h2>活动列表</h2>
-
-                        {isLoading ? (
-                            <div className="loader-container"><div className="loader"></div></div>
-                        ) : (
-                            <table className="admin-table">
-                                <thead>
-                                    <tr>
-                                        <th>名称</th>
-                                        <th>日期</th>
-                                        <th>地点</th>
-                                        <th>价格</th>
-                                        <th>已报名人数</th>
-                                        <th>操作</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {activities.map(activity => {
-                                        const count = registrations.filter(r => String(r.activityId) === String(activity.id)).length;
-                                        return (
-                                            <tr key={activity.id}>
-                                                <td data-label="名称">{activity.name}</td>
-                                                <td data-label="日期">{activity.date}</td>
-                                                <td data-label="地点">{activity.location}</td>
-                                                <td data-label="价格">
-                                                    {activity.price > 0 ? `¥${activity.price}` : '免费'}
-                                                </td>
-                                                <td data-label="已报名人数">
-                                                    {count === 0 ? (
-                                                        <span style={{ color: '#888' }}>暂无</span>
-                                                    ) : (
-                                                        <span>{count} 人</span>
-                                                    )}
-                                                </td>
-                                                <td data-label="操作" className="actions-cell">
-                                                    <button onClick={() => handleEditClick(activity)} className="btn btn-edit">编辑</button>
-                                                    <button onClick={() => handleDelete(activity.id)} className="btn btn-delete">删除</button>
-                                                </td>
-                                            </tr>
-                                        );
-                                    })}
-                                </tbody>
-                            </table>
-                        )}
-                    </div>
-                </>
-            )}
-
-            {/* 活动订单管理标签页 */}
-            {activeTab === 'registrations' && (
-                <div className="admin-list-container">
-                    <h2>活动报名记录</h2>
-
-                    {registrationsWithDetails.length === 0 ? (
-                        <div className="empty-state">暂无报名记录</div>
-                    ) : (
-                        <table className="admin-table">
-                            <thead>
-                                <tr>
-                                    <th>活动名称</th>
-                                    <th>活动日期</th>
-                                    <th>用户邮箱</th>
-                                    <th>报名日期</th>
-                                    <th>操作</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {registrationsWithDetails.map(reg => (
-                                    <tr key={reg.id}>
-                                        <td>{reg.activityName}</td>
-                                        <td>{reg.activityDate}</td>
-                                        <td>{reg.userEmail}</td>
-                                        <td>{reg.registrationDate}</td>
-                                        <td>
-                                            <button
-                                                className="btn btn-delete"
-                                                onClick={() => handleDeleteRegistration(reg.id)}
-                                            >
-                                                删除
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    )}
+      {/* 活动管理标签页 */}
+      {activeTab === 'activities' && (
+        <div className="panel-card">
+          {/* 编辑/创建表单 */}
+          <div className="form-section">
+            <h2 className="section-title">
+              {editingActivity ? `编辑活动：${editingActivity.name}` : '创建新活动'}
+            </h2>
+            <form onSubmit={submitForm} className="admin-form">
+              <div className="form-row">
+                <div className="form-group">
+                  <label>活动名称</label>
+                  <input 
+                    type="text" 
+                    name="name" 
+                    value={formData.name} 
+                    onChange={handleInput} 
+                    required 
+                  />
                 </div>
+                <div className="form-group">
+                  <label>活动地点</label>
+                  <input 
+                    type="text" 
+                    name="location" 
+                    value={formData.location} 
+                    onChange={handleInput} 
+                    required 
+                  />
+                </div>
+              </div>
+
+              <div className="form-row">
+                <div className="form-group">
+                  <label>活动日期</label>
+                  <input 
+                    type="date" 
+                    name="date" 
+                    value={formData.date} 
+                    onChange={handleInput} 
+                    required 
+                  />
+                </div>
+                <div className="form-group">
+                  <label>价格（元）</label>
+                  <input 
+                    type="number" 
+                    name="price" 
+                    value={formData.price} 
+                    onChange={handleInput} 
+                    min="0" 
+                    step="0.01" 
+                  />
+                </div>
+              </div>
+
+              <div className="form-row">
+                <div className="form-group">
+                  <label>人数上限</label>
+                  <input 
+                    type="number" 
+                    name="maxParticipants" 
+                    value={formData.maxParticipants} 
+                    onChange={handleInput} 
+                    min="0" 
+                  />
+                </div>
+                <div className="form-group">
+                  <label>活动描述</label>
+                  <textarea 
+                    name="description" 
+                    value={formData.description} 
+                    onChange={handleInput} 
+                    rows="4" 
+                  />
+                </div>
+              </div>
+
+              <div className="form-actions">
+                <button type="submit" className="btn primary">
+                  {editingActivity ? '保存更改' : '创建活动'}
+                </button>
+                {editingActivity && (
+                  <button 
+                    type="button" 
+                    onClick={() => setEditingActivity(null)} 
+                    className="btn secondary"
+                  >
+                    取消编辑
+                  </button>
+                )}
+              </div>
+            </form>
+          </div>
+
+          {/* 活动列表 */}
+          <div className="list-section">
+            <h2 className="section-title">活动列表</h2>
+            {isLoading ? (
+              <div className="loading-spinner"></div>
+            ) : (
+              <table className="data-table">
+                <thead>
+                  <tr>
+                    <th>活动名称</th>
+                    <th>日期</th>
+                    <th>地点</th>
+                    <th>价格</th>
+                    <th>报名人数</th>
+                    <th>操作</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {activities.map(activity => {
+                    const registrantCount = registrations.filter(
+                      r => r.activityId === activity.id
+                    ).length;
+                    
+                    return (
+                      <tr key={activity.id}>
+                        <td>{activity.name}</td>
+                        <td>{activity.date}</td>
+                        <td>{activity.location}</td>
+                        <td>
+                          {activity.price > 0 
+                            ? `¥${activity.price.toFixed(2)}` 
+                            : '免费'
+                          }
+                        </td>
+                        <td>
+                          {registrantCount === 0 
+                            ? <span className="empty-tag">暂无</span> 
+                            : registrantCount
+                          }
+                        </td>
+                        <td className="action-cell">
+                          <button 
+                            className="btn tiny secondary"
+                            onClick={() => enterEditMode(activity)}
+                          >
+                            编辑
+                          </button>
+                          <button 
+                            className="btn tiny danger"
+                            onClick={() => deleteResource('activities', activity.id, '活动删除成功')}
+                          >
+                            删除
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
             )}
+          </div>
         </div>
-    );
+      )}
+
+      {/* 活动订单管理标签页 */}
+      {activeTab === 'registrations' && (
+        <div className="panel-card">
+          <h2 className="section-title">活动报名记录</h2>
+          {registrationsWithDetails.length === 0 ? (
+            <div className="empty-state">暂无报名记录</div>
+          ) : (
+            <table className="data-table">
+              <thead>
+                <tr>
+                  <th>活动名称</th>
+                  <th>活动日期</th>
+                  <th>用户邮箱</th>
+                  <th>报名时间</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                {registrationsWithDetails.map(reg => (
+                  <tr key={reg.id}>
+                    <td>{reg.activityName}</td>
+                    <td>{reg.activityDate}</td>
+                    <td>{reg.userEmail}</td>
+                    <td>{reg.registrationDate}</td>
+                    <td className="action-cell">
+                      <button 
+                        className="btn tiny danger"
+                        onClick={() => deleteResource('registrations', reg.id, '报名记录删除成功')}
+                      >
+                        删除
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default AdminDashboard;
