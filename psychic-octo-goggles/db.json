@@ -1,0 +1,144 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "email": "admin@example.com",
+      "password": "password123",
+      "role": "admin"
+    },
+    {
+      "id": "2",
+      "email": "user@example.com",
+      "password": "password123",
+      "role": "user"
+    },
+    {
+      "id": "5f85",
+      "email": "123456@123.com",
+      "password": "123456",
+      "role": "user"
+    }
+  ],
+  "activities": [
+    {
+      "id": "1",
+      "name": "夏季篮球训练营",
+      "description": "为期三周的专业篮球技巧训练，涵盖投篮、运球和战术配合，由前职业球员执教。",
+      "date": "2025-08-01",
+      "location": "市中心体育馆A馆",
+      "maxParticipants": 30,
+      "price": 50
+    },
+    {
+      "id": "2",
+      "name": "周末晨间瑜伽放松课",
+      "description": "通过流瑜伽和冥想，在周末的清晨释放一周的压力，找到内心的平静。",
+      "date": "2025-07-26",
+      "location": "阳光社区活动中心",
+      "maxParticipants": 20,
+      "price": 15
+    },
+    {
+      "id": "3",
+      "name": "户外徒步：探索西山",
+      "description": "沿着风景优美的山路徒步10公里，享受大自然的新鲜空气和壮丽景色。",
+      "date": "2025-08-03",
+      "location": "西山国家森林公园",
+      "maxParticipants": 50,
+      "price": 10
+    },
+    {
+      "id": "4",
+      "name": "青少年羽毛球技巧提升班",
+      "description": "针对12-18岁青少年，系统学习高远球、杀球、网前小球等关键技术。",
+      "date": "2025-07-28",
+      "location": "第三中学体育馆",
+      "maxParticipants": 24,
+      "price": 60
+    },
+    {
+      "id": "5",
+      "name": "城市夜跑活动",
+      "description": "跟随团队，在夜晚凉爽的微风中，沿着滨江大道完成5公里慢跑，享受运动的乐趣。",
+      "date": "2025-08-05",
+      "location": "滨江公园东门",
+      "maxParticipants": 100,
+      "price": 5
+    },
+    {
+      "id": "6",
+      "name": "成人游泳基础入门",
+      "description": "从零开始，学习游泳的基本技巧，包括漂浮、换气和自由泳姿势。",
+      "date": "2025-08-02",
+      "location": "市游泳馆",
+      "maxParticipants": 15,
+      "price": 50
+    },
+    {
+      "id": "7",
+      "name": "乒乓球爱好者交流赛",
+      "description": "一个友好的平台，让所有乒乓球爱好者切磋球技，以球会友。",
+      "date": "2025-08-09",
+      "location": "工人文化宫",
+      "maxParticipants": 30,
+      "price": 35
+    },
+    {
+      "id": "8",
+      "name": "攀岩体验课",
+      "description": "在专业教练的指导和保护下，体验室内攀岩的挑战与刺激，无需任何经验。",
+      "date": "2025-07-27",
+      "location": "巅峰室内攀岩馆",
+      "maxParticipants": 12,
+      "price": 70
+    }
+  ],
+  "registrations": [
+    {
+      "id": "1f8a",
+      "userId": "2",
+      "activityId": "1",
+      "registrationDate": "2025-07-17"
+    },
+    {
+      "id": "2021",
+      "userId": "2",
+      "activityId": "2",
+      "registrationDate": "2025-07-18"
+    },
+    {
+      "id": "a742",
+      "userId": "5f85",
+      "activityId": "1",
+      "registrationDate": "2025-07-18"
+    },
+    {
+      "id": "d6a5",
+      "userId": "5f85",
+      "activityId": "8",
+      "registrationDate": "2025-07-18"
+    },
+    {
+      "id": "3687",
+      "userId": "5f85",
+      "activityId": "4",
+      "registrationDate": "2025-07-18"
+    }
+  ],
+  "comments": [
+    {
+      "id": "4860",
+      "activityId": "1",
+      "userId": "1",
+      "content": "非常好",
+      "date": "2025-07-18"
+    },
+    {
+      "id": "b617",
+      "activityId": "3",
+      "userId": "2",
+      "content": "这个活动十分有趣",
+      "date": "2025-07-18"
+    }
+  ]
+}
