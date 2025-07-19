@@ -1,0 +1,49 @@
+name: End-to-End Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  e2e-tests:
+    runs-on: ubuntu-latest
+    services:
+      # 启动JSON Server模拟API
+      json-server:
+        image: node:18
+        ports:
+          - 3001:3001
+        volumes:
+          - ./db.json:/app/db.json
+        working-directory: /app
+        run: |
+          npm install -g json-server
+          json-server --watch db.json --port 3001
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18.x'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Start React app
+        run: |
+          npm start -- --port=3000 &
+          echo "React app started on port 3000"
+        
+      - name: Install Cypress
+        run: npm install cypress --save-dev
+
+      - name: Run Cypress tests
+        env:
+          CYPRESS_BASE_URL: http://localhost:3000
+          CYPRESS_API_URL: http://localhost:3001
+        run: npx cypress run --browser chrome
